@@ -2,6 +2,10 @@
 header('Access-Control-Allow-Origin: /');
 header('Content-Type: application/json');
 
+require 'public/php/vendor/phpmailer/phpmailer/src/Exception.php';
+require 'public/php/vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'public/php/vendor/phpmailer/phpmailer/src/SMTP.php';
+
 if(empty($_SERVER['CONTENT_TYPE'])) {
     $type = "application/x-www-form-urlencoded";
     $_SERVER['CONTENT_TYPE'] = $type;
@@ -14,24 +18,32 @@ if(!empty($data['data'])){
     $order_number = $data['data']['order_number'];
     $order_amount = $data['data']['order_amount'];
 
-    $subject = 'Order information';
+    $mail = new PHPMailer\PHPMailer\PHPMailer();
 
-    $message = "Your order .${$order_number} for .${$order_amount} amount is complete.";
+    //Configure the mail server settings:
+    $mail->isSMTP(); // Set mailer to use SMTP
+    $mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers
+    $mail->SMTPAuth = true; // Enable SMTP authentication
+    $mail->Username = 'meancook.dy@gmail.com'; // SMTP username
+    $mail->Password = 'ymug qyrr aosl cswk '; // The App Password you generated
+    $mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 587; // TCP port to connect to
 
-    $headers = 'From: shop-nnn@gmail.com' . "\r\n" .
+    //Set the sender and recipient email addresses:
+    $mail->setFrom('meancook.dy@gmail.com', 'Qryptal'); // Set sender email and name
+    $mail->addAddress($email, 'Recipient Name'); // Add a recipient
 
-        'Reply-To: shop-nnn@gmail.com' . "\r\n" .
+    //Set the email content
+    $mail->Subject = "You order has been placed";
+    $mail->Body = "Tank you for yor order";
 
-        'MIME-Version: 1.0' . "\r\n" .
+    //Send the email
 
-        'Content-Type: text/plain; charset=UTF-8';
-
-    if (mail($email, $subject, $message, $headers)) {
-        $response = array('success' => true, 'message' => 'Email sent successfully.!');
-
-
+    if (!$mail->send()) {
+        $response = array('success' => false, 'message' => $mail->ErrorInfo);
     } else {
-        $response = array('success' => false, 'message' => 'Error sending email.');
+
+        $response = array('success' => true, 'message' => 'Email sent successfully.!');
 
     }
     echo json_encode($response);
