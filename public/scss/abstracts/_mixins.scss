@@ -1,0 +1,27 @@
+@mixin tablet {
+    @media (width >= 757px) {
+        @content;
+    }
+}
+
+@mixin laptop {
+    @media (width >= 979px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (width >= 1200px) {
+        @content;
+    }
+}
+
+@mixin largeScreen {
+    @media (width >= 1400px) {
+        @content;
+    }
+}
+
+@mixin transition {
+    transition: all 0.5s;
+}

@@ -1,0 +1,42 @@
+.content-wrapper {
+  margin: 25px auto;
+  display: flex;
+  flex-direction: column;
+  background: $white-color;
+  padding: 30px;
+
+  @include tablet {
+    max-width: 700px;
+    padding: 15px;
+  }
+
+  @include laptop {
+    max-width: 725px;
+  }
+
+  @include desktop {
+    max-width: 956px;
+  }
+
+  @include largeScreen {
+    max-width: 1156px;
+  }
+}
+
+.btn{
+  background-color: #7066e0;
+
+  color: #fff;
+
+  padding: 10px 20px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  &.--hidden{
+    display: none;
+  }
+}
