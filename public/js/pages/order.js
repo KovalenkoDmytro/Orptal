@@ -57,9 +57,6 @@ const toAddSubmitButtonEvent = (button) =>{
                 icon: 'error',
             })
         }
-        // notification
-
-
     })
 }
 
@@ -78,7 +75,13 @@ const toAddCompleteButtonEvent = (button) =>{
         };
         fetch('/emailSender.php', requestOptions)
             .then(response => response.json())
-            .then(data => console.log(data) );
+            .then(data => {
+                Swal.fire({
+                    title: data.success === true ? 'Success !' : 'Error!',
+                    text: data.message,
+                    icon: data.success === true ? 'success' : 'error',
+                })
+            } );
 
     })
 }
